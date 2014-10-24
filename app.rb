@@ -10,10 +10,6 @@ require 'pusher'
 
 Pusher.url = "http://5b38b811cbe170b81ea1:658c86a2384410f3e45c@api.pusherapp.com/apps/94047"
 
-Pusher['test_channel'].trigger('my_event', {
-  message: 'hello world'
-})
-
 # Set Sinatra variables
 set :app_file, __FILE__
 set :root, File.dirname(__FILE__)
@@ -41,6 +37,7 @@ def people_from_json output
 end
 
 def get_people
+	puts "hello"
 	loop do
 		puts "Getting people..."
 		people = people_from_json `sh local_scanner.sh`
@@ -50,4 +47,6 @@ def get_people
 	end
 end
 
-# get_people
+# Thread.new do
+	get_people
+# end
