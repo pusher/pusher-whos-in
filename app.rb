@@ -21,9 +21,9 @@ get '/' do
   haml :index, :layout => :'layouts/application'
 end
 
-get '/people' do 
-	people = people_from_json `sh local_scanner.sh`
-	return people.to_json
+post '/people' do 
+	people = people_from_json request.body.read
+	Pusher['people_channel'].trigger('people_event', people)
 end
 
 def people_from_json output
@@ -31,18 +31,3 @@ def people_from_json output
 		{mac: person[0], last_seen: person[1]["last_seen"]}
 	end
 end
-
-def get_people
-	puts "hello"
-	loop do
-		puts "Getting people..."
-		people = people_from_json `sh local_scanner.sh`
-		puts "Triggering event..."
-		Pusher['people_channel'].trigger('people_event', people)
-		sleep 5
-	end
-end
-
-# Thread.new do
-	get_people
-# end

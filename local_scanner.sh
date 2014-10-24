@@ -2,7 +2,7 @@
 
 APP_USERNAME="foo"
 APP_PASSWORD="bar"
-WHOSIN_URL="http://${APP_USERNAME}:${APP_PASSWORD}@localhost:4567/"
+WHOSIN_URL="http://localhost:9393/people"
 
 local_scan() {
   macs=( $(sudo nmap -sn 192.168.1.0/24 | grep -Eio "([0-9A-F]{2}:){5}[0-9A-F]{2}") )
@@ -19,7 +19,9 @@ update_offline_since() {
   json=$( IFS=, ; echo "${json[*]}")
   json="{$json}"
 
-  echo $json
+  curl -X POST -d "$json" $WHOSIN_URL > /dev/null &
+
+  # echo $json
 }
 
 local_scan
