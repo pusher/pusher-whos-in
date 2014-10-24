@@ -14,3 +14,5 @@ gem 'susy', '~> 1.0.5'
 
 # Runtime
 gem 'thin', '~> 1.5.0'
+
+gem 'pusher'

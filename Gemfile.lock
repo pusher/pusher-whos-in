@@ -12,11 +12,18 @@ GEM
     eventmachine (1.0.0)
     fssm (0.2.9)
     haml (3.1.7)
+    httpclient (2.5.1)
+    multi_json (1.10.1)
+    pusher (0.14.2)
+      httpclient (~> 2.4)
+      multi_json (~> 1.0)
+      signature (~> 0.1.6)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
     rake (10.0.2)
     sass (3.2.3)
+    signature (0.1.7)
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
@@ -37,6 +44,7 @@ DEPENDENCIES
   compass (~> 0.12.2)
   compass-normalize (~> 1.4.1)
   haml (~> 3.1.7)
+  pusher
   rake
   sass (~> 3.2.3)
   sinatra (~> 1.3.3)

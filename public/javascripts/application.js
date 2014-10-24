@@ -1,10 +1,10 @@
-$(document).ready(function() {
+angular.module('WhosIn', []).controller('AppCtrl', function($scope, $http){
 
-	// Open external links in a new window
-	hostname = window.location.hostname
-	$("a[href^=http]")
-	  .not("a[href*='" + hostname + "']")
-	  .addClass('link external')
-	  .attr('target', '_blank');
+	$scope.testing = 'hello'
+
+	$http.get('/people').success(function(data){
+		console.log(data);
+		$scope.people = data;
+	});
 
 });
