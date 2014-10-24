@@ -21,10 +21,6 @@ get '/' do
   haml :index, :layout => :'layouts/application'
 end
 
-get '/about' do
-  haml :about, :layout => :'layouts/application'
-end
-
 get '/people' do 
 	people = people_from_json `sh local_scanner.sh`
 	return people.to_json
