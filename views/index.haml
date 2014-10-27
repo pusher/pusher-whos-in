@@ -2,6 +2,6 @@
 
 	.person{:"ng-repeat" => "person in people"}
 
-		MAC Address: {{person.mac}}
+		{{person.name || person.mac}} is in!
 		Last Seen: {{person.last_seen}}
 

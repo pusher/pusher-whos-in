@@ -27,7 +27,24 @@ post '/people' do
 end
 
 def people_from_json output
+	addresses = get_addresses_from output
+	names = get_names_from_file
+	match_names_to_mac_addresses addresses, names
+end
+
+def get_addresses_from output
 	JSON.parse(output).map do |person|
 		{mac: person[0], last_seen: person[1]["last_seen"]}
+	end
+end
+
+def get_names_from_file
+	JSON.parse(IO.read('names.json'))
+end
+
+def match_names_to_mac_addresses addresses, names
+	addresses.each do |address|
+		match = names.find {|name| name["mac"] == address[:mac]}
+		address[:name] = match ? match["name"] : nil
 	end
 end

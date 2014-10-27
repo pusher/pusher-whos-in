@@ -1,6 +1,4 @@
-angular.module('WhosIn', ['pusher-angular']).controller('AppCtrl', function($scope, $http, $pusher){
-
-	$scope.testing = 'hello'
+angular.module('WhosIn', ['pusher-angular']).controller('AppCtrl', function($scope, $pusher){
 
 	var client = new Pusher('5b38b811cbe170b81ea1');
 	var pusher = $pusher(client);
@@ -8,6 +6,6 @@ angular.module('WhosIn', ['pusher-angular']).controller('AppCtrl', function($sco
 
 	peopleChannel.bind('people_event', function(data){
 		$scope.people = data;
-	})
+	});
 
 });
