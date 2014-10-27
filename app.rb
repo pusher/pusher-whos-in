@@ -46,5 +46,5 @@ def match_names_to_mac_addresses addresses, names
 	addresses.each do |address|
 		match = names.find {|name| name["mac"] == address[:mac]}
 		address[:name] = match ? match["name"] : nil
-	end
+	end.partition {|data| !data[:name].nil? }.flatten
 end
