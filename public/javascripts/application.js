@@ -8,4 +8,23 @@ angular.module('WhosIn', ['pusher-angular']).controller('AppCtrl', function($sco
 		$scope.people = data;
 	});
 
+	$scope.user = {};
+
+	$scope.createNewUser = function(){
+		// $http.post('/users/new', 
+	};
+
+	$scope.$watch('user', function(){
+		console.log($scope.user)
+	}, true);
+
+
+	$scope.fields = [
+		"Name",
+		"MAC Address",
+		"Email Address"
+	];
+
+
 });
+

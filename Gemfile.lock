@@ -1,6 +1,13 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activesupport (4.1.6)
+      i18n (~> 0.6, >= 0.6.9)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.1)
+      tzinfo (~> 1.1)
+    bson (1.11.1)
     chunky_png (1.2.6)
     compass (0.12.2)
       chunky_png (~> 1.2)
@@ -11,8 +18,16 @@ GEM
     daemons (1.1.9)
     eventmachine (1.0.0)
     fssm (0.2.9)
+    gravatar-ultimate (2.0.0)
+      activesupport (>= 2.3.14)
+      rack
     haml (3.1.7)
     httpclient (2.5.1)
+    i18n (0.6.11)
+    json (1.8.1)
+    minitest (5.4.2)
+    mongo (1.11.1)
+      bson (= 1.11.1)
     multi_json (1.10.1)
     pusher (0.14.2)
       httpclient (~> 2.4)
@@ -35,7 +50,10 @@ GEM
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
+    thread_safe (0.3.4)
     tilt (1.3.3)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
 
 PLATFORMS
   ruby
@@ -43,7 +61,9 @@ PLATFORMS
 DEPENDENCIES
   compass (~> 0.12.2)
   compass-normalize (~> 1.4.1)
+  gravatar-ultimate
   haml (~> 3.1.7)
+  mongo
   pusher
   rake
   sass (~> 3.2.3)

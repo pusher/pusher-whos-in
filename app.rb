@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'haml'
 require 'json'
+require "gravatar-ultimate"
 
 # Helpers
 require './lib/render_partial'
@@ -18,10 +19,12 @@ set :public_folder, 'public'
 
 # Application routes
 get '/' do
+	# `sh local_scanner.sh`
   haml :index, :layout => :'layouts/application'
 end
 
 post '/people' do 
+	puts "getting it!"
 	people = people_from_json request.body.read
 	Pusher['people_channel'].trigger('people_event', people)
 end
@@ -45,6 +48,14 @@ end
 def match_names_to_mac_addresses addresses, names
 	addresses.each do |address|
 		match = names.find {|name| name["mac"] == address[:mac]}
+		if match
+			address[:name] = match["name"]
+			address[:gravatar] = get_gravatar_from match["email"]
+		end
 		address[:name] = match ? match["name"] : nil
-	end.partition {|data| !data[:name].nil? }.flatten
+	end.partition {|data| data[:name] }.flatten
+end
+
+def get_gravatar_from email
+	Gravatar.new(email).image_url
 end

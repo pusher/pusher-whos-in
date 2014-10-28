@@ -1,9 +1,31 @@
 .container{:"ng-controller" => "AppCtrl"}
+	
+	%h1.text-center Who's In?
 
-	.person{:"ng-repeat" => "person in people"}
+	.col-md-6
+		.person{:"ng-repeat" => "person in people"}
 
-		{{person.name || person.mac}} is in!
-		%small Last Seen: {{person.last_seen}}
-		%br
-		%br
+			{{person.name || person.mac}} is in!
+			%small Last Seen: {{person.last_seen}}
+			%img{:"ng-src" => "{{person.gravatar}}"}
+			%br
+			%br
 
+		/ .lab_item{:"ng-repeat" => "person in people"}
+
+		/ 	.hexagon.hexagon2
+		/ 		.hexagon-in1
+		/ 			.hexagon-in2{style: "background-image: url({{person.gravatar}})"}
+
+
+
+
+	.col-md-6
+		.new-user-form
+			%h5 Add User
+			%form{name: "NewUser", :"ng-submit" => "createNewUser()"}
+				%label{:"ng-repeat" => "field in fields"}
+					%p {{field}}
+					%input.form-control{:"ng-model" => "user[field.toLowerCase()]"}
+				%label
+					%input.btn.btn-default{type: "submit"}

@@ -1,18 +1,27 @@
 [
 	{
 		"name": "Alex",
-		"mac": "54:26:96:DF:7F:43"
+		"mac": "54:26:96:DF:7F:43",
+		"email": "alex@pusher.com"
 	},
 	{
 		"name": "Hamilton",
-		"mac": "78:31:C1:BD:DB:0A"
+		"mac": "78:31:C1:BD:DB:0A",
+		"email": "hamilton@pusher.com"
 	},
-	{
-		"name": "Jamie",
-		"mac": "84:7A:88:5C:A2:F7"
-	},
+	// {
+	// 	"name": "Jamie",
+	// 	"mac": "84:7A:88:5C:A2:F7",
+	// 	"email": "jamie@pusher.com"
+	// },
 	{
 		"name": "Lauren",
-		"mac": "78:31:C1:CE:C7:96"
+		"mac": "78:31:C1:CE:C7:96",
+		"email": "lauren@pusher.com"
+	},
+	{
+		"name": "Sylvain",
+		"mac": "00:88:65:3E:48:BE",
+		"email": "sylvain@pusher.com"
 	}
 ]

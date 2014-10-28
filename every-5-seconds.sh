@@ -2,5 +2,5 @@
 while true
 do
  /Users/jamiepatel/Desktop/projects/whos_in/local_scanner.sh
- sleep 5
+ sleep 120
 done
