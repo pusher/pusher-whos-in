@@ -3,33 +3,23 @@
   %h1.text-center Who's In?
 
   .col-md-6
-    .person{:"ng-repeat" => "person in people"}
+    / .person{:"ng-repeat" => "person in people"}
 
-      {{person.name || person.mac}} is in!
-      %small Last Seen: {{person.last_seen}}
-      %img{:"ng-src" => "{{person.gravatar}}"}
-      %br
-      %br
-
-
-    %ol{:"ng-repeat" => "group in groups", :"ng-class" => "($index % 2 == 0) ? 'even' : 'odd'"}
-      / %div{:"ng-repeat" => "person in group", style: "background-image: url({{person.gravatar}})"}
-      %li.hex
-        / %div{style: "width: 100%; height: 100%; background-image: url({{person.gravatar}})"}
+    /   {{person.name || person.mac}} is in!
+    /   %small Last Seen: {{person.last_seen}}
+    /   %img{:"ng-src" => "{{person.gravatar}}"}
+    /   %br
+    /   %br
 
 
-    / %div.hexrow{:"ng-repeat" => "group in groups"}
-    /   %div{:"ng-repeat" => "person in group"}
-    /     %span {{person.name}}
-    /     %div
-    /     %div
-
-
-    / .lab_item{:"ng-repeat" => "person in people"}
-    /   .hexagon.hexagon2
-    /     .hexagon-in1
-    /       .hexagon-in2{:style => "background-image: url({{person.gravatar}});"}
-
+    .hexagons{:"ng-repeat" => "person in people"}
+      .hex.hex-gap{:"ng-show" => "$index == 3"}
+        .corner-1
+        .corner-2
+      .hex{style: "background-image: url({{person.gravatar}})"}
+        %a{href:"#"}
+        .corner-1
+        .corner-2
 
   .col-md-6
     .new-user-form

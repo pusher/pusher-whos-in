@@ -5,7 +5,7 @@ angular.module('WhosIn', ['pusher-angular']).controller('AppCtrl', function($sco
 	var peopleChannel = pusher.subscribe('people_channel');
 
 	peopleChannel.bind('people_event', function(data){
-		// $scope.groups = data;
+		$scope.groups = data;
 		$scope.people = data;
 		console.log(data);
 	});
