@@ -40,39 +40,22 @@ post '/people' do
 end
 
 post '/users/new' do 
-	response_data = JSON.parse(request.body.read)
-	user_data = Hash.new
+	user_data, response_data = Hash.new, JSON.parse(request.body.read)
 	user_data[:name], user_data[:mac], user_data[:email] = response_data["name"], response_data["mac address"], response_data["email address"]
+	user_data[:gravatar] = Gravatar.new(user_data[:email]).image_url
 	settings.mongo_db['users'].insert user_data
+	{success: 200}.to_json
 end
 
 def people_from_json output
-	addresses = get_addresses_from output
-	names = get_names_from_file
-	match_names_to_mac_addresses addresses, names
+	addresses = JSON.parse output
+	match_people_to_mac_addresses addresses
 end
 
-def get_addresses_from output
-	JSON.parse(output).map do |person|
-		{mac: person[0], last_seen: person[1]["last_seen"]}
-	end
-end
-
-def get_names_from_file
-	JSON.parse(IO.read('names.json'))
-end
-
-def match_names_to_mac_addresses addresses, names
-	addresses.each do |address|
-		match = names.find {|name| name["mac"] == address[:mac]}
-		if match
-			address[:name] = match["name"]
-			address[:gravatar] = get_gravatar_from match["email"]
-		end
-		address[:name] = match ? match["name"] : nil
-	end.partition {|data| data[:name] }.flatten
-end
-
-def get_gravatar_from email
-	Gravatar.new(email).image_url
+def match_people_to_mac_addresses addresses
+	addresses.map! {|address| address["mac"]}
+	people = settings.mongo_db['users']
+	matches = people.find('mac' => {'$in' => addresses})
+	matches.to_a.each { |match| people.update({"_id" => match["_id"]},{"$set" => {"last_seen" => Time.now}})}
+	people.find('mac' => {'$in' => addresses}).to_a
 end

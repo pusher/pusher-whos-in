@@ -6,6 +6,7 @@ angular.module('WhosIn', ['pusher-angular']).controller('AppCtrl', function($sco
 
 	peopleChannel.bind('people_event', function(data){
 		$scope.people = data;
+		console.log(data);
 	});
 
 	$scope.user = {
@@ -15,13 +16,8 @@ angular.module('WhosIn', ['pusher-angular']).controller('AppCtrl', function($sco
 	};
 
 	$scope.createNewUser = function(){
-		$http.post('/users/new', $scope.user)
+		$http.post('/users/new', $scope.user).then(function(){ $scope.user = {} })
 	};
-
-	// $scope.$watch('user', function(){
-	// 	console.log($scope.user)
-	// }, true);
-
 
 	$scope.fields = [
 		"Name",

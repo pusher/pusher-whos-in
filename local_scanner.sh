@@ -13,15 +13,22 @@ update_offline_since() {
   local DATE=$(date)
 
   for i in "${!macs[@]}"; do
-    json[$i]="\"${macs[$i]}\":{\"last_seen\": \"${DATE}\"}"
+    # json[$i]="\"${macs[$i]}\":{\"last_seen\": \"${DATE}\"}"
+
+    json[$i]="{\"mac\": \"${macs[$i]}\"}"
+
+    # json[$i]= "'mac': '${macs[$i]}', 'last_seen': '${DATE}'"
+
+    # json[$i]="'mac':"
+
   done
 
   json=$( IFS=, ; echo "${json[*]}")
-  json="{$json}"
+  json="[$json]"
 
   curl -X POST -d "$json" $WHOSIN_URL > /dev/null &
 
-  # echo $json
+  echo $json
 }
 
 local_scan
