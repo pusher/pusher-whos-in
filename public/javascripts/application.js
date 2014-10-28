@@ -5,6 +5,7 @@ angular.module('WhosIn', ['pusher-angular']).controller('AppCtrl', function($sco
 	var peopleChannel = pusher.subscribe('people_channel');
 
 	peopleChannel.bind('people_event', function(data){
+		// $scope.groups = data;
 		$scope.people = data;
 		console.log(data);
 	});
@@ -24,6 +25,13 @@ angular.module('WhosIn', ['pusher-angular']).controller('AppCtrl', function($sco
 		"MAC Address",
 		"Email Address"
 	];
+
+
+	var eachSlice = function(array, size, callback){
+		for(var i = 0, l = array.length; i < l; i += size){
+			callback(array, array.slice(i, i+size));
+		}
+	}
 
 
 });

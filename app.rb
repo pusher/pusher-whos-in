@@ -59,3 +59,17 @@ def match_people_to_mac_addresses addresses
 	matches.to_a.each { |match| people.update({"_id" => match["_id"]},{"$set" => {"last_seen" => Time.now}})}
 	people.find('mac' => {'$in' => addresses}).to_a
 end
+
+def in_groups array, odd_number, even_number
+	number = odd_number
+	array = array.each_slice(even_number).to_a
+	array.each_with_index do |sub_array, index|
+		puts number
+		until sub_array.length <= number
+			array[index + 1] = [] if !array[index + 1]
+			array[index + 1] << sub_array.pop
+		end
+		number = (number == odd_number) ? even_number : odd_number
+	end
+	return array
+end
