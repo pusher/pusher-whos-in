@@ -8,6 +8,8 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     bson (1.11.1)
+    bson_ext (1.11.1)
+      bson (~> 1.11.1)
     chunky_png (1.2.6)
     compass (0.12.2)
       chunky_png (~> 1.2)
@@ -59,6 +61,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson_ext
   compass (~> 0.12.2)
   compass-normalize (~> 1.4.1)
   gravatar-ultimate

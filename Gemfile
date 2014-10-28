@@ -17,5 +17,8 @@ gem 'thin', '~> 1.5.0'
 
 gem 'gravatar-ultimate'
 gem 'mongo'
+gem 'bson_ext'
+
+# gem 'mongoid'
 
 gem 'pusher'

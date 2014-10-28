@@ -4,12 +4,24 @@ require 'haml'
 require 'json'
 require "gravatar-ultimate"
 
+
 # Helpers
 require './lib/render_partial'
 
 require 'pusher'
 
 Pusher.url = "http://5b38b811cbe170b81ea1:658c86a2384410f3e45c@api.pusherapp.com/apps/94047"
+
+require 'mongo'
+
+include Mongo
+
+configure do
+  conn = MongoClient.new("localhost", 27017)
+  set :mongo_connection, conn
+  set :mongo_db, conn.db('whos_in')
+end
+
 
 # Set Sinatra variables
 set :app_file, __FILE__
@@ -19,14 +31,19 @@ set :public_folder, 'public'
 
 # Application routes
 get '/' do
-	# `sh local_scanner.sh`
   haml :index, :layout => :'layouts/application'
 end
 
 post '/people' do 
-	puts "getting it!"
 	people = people_from_json request.body.read
 	Pusher['people_channel'].trigger('people_event', people)
+end
+
+post '/users/new' do 
+	response_data = JSON.parse(request.body.read)
+	user_data = Hash.new
+	user_data[:name], user_data[:mac], user_data[:email] = response_data["name"], response_data["mac address"], response_data["email address"]
+	settings.mongo_db['users'].insert user_data
 end
 
 def people_from_json output
