@@ -2,7 +2,8 @@
 
 APP_USERNAME="foo"
 APP_PASSWORD="bar"
-WHOSIN_URL="http://localhost:9393/people"
+# WHOSIN_URL="http://localhost:9393/people"
+WHOSIN_URL="http://pusher-whos-in.herokuapp.com/people"
 
 local_scan() {
   macs=( $(sudo nmap -sn 192.168.1.0/24 | grep -Eio "([0-9A-F]{2}:){5}[0-9A-F]{2}") )
