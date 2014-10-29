@@ -8,7 +8,7 @@ require 'pusher'
 require 'mongo'
 
 
-Pusher.url = "http://5b38b811cbe170b81ea1:658c86a2384410f3e45c@api.pusherapp.com/apps/94047"
+Pusher.url = "http://#{ENV["WHOS_IN_KEY"]}:#{ENV["WHOS_IN_SECRET"]}@api.pusherapp.com/apps/#{ENV["WHOS_IN_ID"]}"
 
 
 include Mongo
