@@ -1,12 +1,12 @@
-angular.module('WhosIn', ['pusher-angular']).controller('AppCtrl', function($scope, $pusher, $http){
+angular.module('WhosIn', ['pusher-angular', 'ui.bootstrap']).controller('AppCtrl', function($scope, $pusher, $http){
 
 	var client = new Pusher('5b38b811cbe170b81ea1');
 	var pusher = $pusher(client);
 	var peopleChannel = pusher.subscribe('people_channel');
 
 	peopleChannel.bind('people_event', function(data){
-		$scope.groups = data;
 		$scope.people = data;
+		$scope.people.push("");
 		console.log(data);
 	});
 
@@ -17,6 +17,7 @@ angular.module('WhosIn', ['pusher-angular']).controller('AppCtrl', function($sco
 	};
 
 	$scope.createNewUser = function(){
+		console.log("creating user...")
 		$http.post('/users/new', $scope.user).then(function(){ $scope.user = {} })
 	};
 
@@ -26,12 +27,14 @@ angular.module('WhosIn', ['pusher-angular']).controller('AppCtrl', function($sco
 		"Email Address"
 	];
 
-
-	var eachSlice = function(array, size, callback){
-		for(var i = 0, l = array.length; i < l; i += size){
-			callback(array, array.slice(i, i+size));
-		}
-	}
+	$scope.shouldCreateGap = function(index){
+		var range = _.range(1, 100)
+		var turningPoints = _.map(range, function(number){
+			// return (2*number) + Math.ceil(number / 2)
+			return (5*number) - 2
+		});
+		return _.contains(turningPoints, index)
+	};
 
 
 });

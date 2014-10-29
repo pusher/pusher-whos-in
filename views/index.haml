@@ -1,32 +1,29 @@
+
 .container{:"ng-controller" => "AppCtrl"}
+
   
-  %h1.text-center Who's In?
+  = partial :_new_user
 
-  .col-md-6
-    / .person{:"ng-repeat" => "person in people"}
+  .row
+    %h1.text-center Who's In?
 
-    /   {{person.name || person.mac}} is in!
-    /   %small Last Seen: {{person.last_seen}}
-    /   %img{:"ng-src" => "{{person.gravatar}}"}
-    /   %br
-    /   %br
+  .row{style: "margin-top: 100px"}
+    .col-md-3
+    .col-md-6{style: "margin-left: 30px"}
 
+      .hexagons{:"ng-hide" => "people", style: "margin-left: 85px"}
+        .hex.hex-gap{:"data-target" => "#myModal", :"data-toggle" => "modal"}
+          .corner-1
+          .corner-2
 
-    .hexagons{:"ng-repeat" => "person in people"}
-      .hex.hex-gap{:"ng-show" => "$index == 3"}
-        .corner-1
-        .corner-2
-      .hex{style: "background-image: url({{person.gravatar}})"}
-        %a{href:"#"}
-        .corner-1
-        .corner-2
+      .hexagons{:"ng-repeat" => "person in people"}
+        .hex{style: "background-image: url({{person.gravatar}})", :"ng-class" => "{'hex-gap': shouldCreateGap($index)}", :"data-target" => "$last ? '#myModal' : '' ", :"data-toggle" => "$last ? 'modal' : ''"}
 
-  .col-md-6
-    .new-user-form
-      %h5 Add User
-      %form{name: "NewUser", :"ng-submit" => "createNewUser()"}
-        %label{:"ng-repeat" => "field in fields"}
-          %p {{field}}
-          %input.form-control{:"ng-model" => "user[field.toLowerCase()]"}
-        %label
-          %input.btn.btn-default{type: "submit"}
+          %a{href:"#", tooltip: "{{person.name}} is in! Last Seen: {{person.last_seen | date:'short'}}", :"ng-hide" => "$last"}
+
+          %a{:"ng-show" => "$last",  "data-target" => "#myModal", "data-toggle" => "modal"}
+          .corner-1
+          .corner-2
+
+    .col-md-3
+    

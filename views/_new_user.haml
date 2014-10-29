@@ -1,0 +1,21 @@
+/ / Button trigger modal
+/ %button.btn.btn-primary.btn-lg{"data-target" => "#myModal", "data-toggle" => "modal"}
+/ Launch demo modal
+/ / Modal
+#myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+          %span.sr-only Close
+        %h4#myModalLabel.modal-title Add Bro
+      .modal-body
+        .new-user-form
+        %form{name: "NewUser", :"ng-submit" => "createNewUser()"}
+          %label{:"ng-repeat" => "field in fields"}
+            %p {{field}}
+            %input.form-control{:"ng-model" => "user[field.toLowerCase()]"}
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %button.btn.btn-primary{:type => "button", :"ng-click" => "user['email address'] && user['mac address'] && createNewUser()", "data-dismiss" => "modal"} Save changes
