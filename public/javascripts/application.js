@@ -28,6 +28,5 @@ angular.module('WhosIn', ['pusher-angular', 'ui.bootstrap']).controller('AppCtrl
 		return _.contains(turningPoints, index)
 	};
 
-
 });
 

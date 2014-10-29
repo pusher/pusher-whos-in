@@ -3,3 +3,7 @@
 .DS_Store
 tmp/**/*
 nohup.out
+body.json
+every2minutes.cron
+seeds.rb
+names.json
