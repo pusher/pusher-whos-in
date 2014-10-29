@@ -31,7 +31,8 @@ angular.module('WhosIn', ['pusher-angular', 'ui.bootstrap']).controller('AppCtrl
 		var range = _.range(1, 100)
 		var turningPoints = _.map(range, function(number){
 			// return (2*number) + Math.ceil(number / 2)
-			return (5*number) - 2
+			// return (5*number) - 2
+			return (7*number) - 3
 		});
 		return _.contains(turningPoints, index)
 	};
