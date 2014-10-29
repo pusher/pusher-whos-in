@@ -24,6 +24,8 @@ configure do
 		db_name = mongo_uri[%r{/([^/\?]+)(\?|$)}, 1]
 		client = MongoClient.from_uri(mongo_uri)
 		db = client.db(db_name)
+		set :mongo_connection, client
+		set :mongo_db, db
 		db.collection_names.each { |name| puts name }
   end
 end
