@@ -37,7 +37,7 @@
     var pusher = $pusher(client);
     var peopleChannel = pusher.subscribe('people_channel');
 
-
+    $scope.user = {}
 
     peopleChannel.bind('people_event', function(data){
       $scope.people = data;
@@ -61,6 +61,5 @@
       });
       return _.contains(turningPoints, index)
     };
-
 
   });
