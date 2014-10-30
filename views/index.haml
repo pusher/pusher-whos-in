@@ -41,7 +41,7 @@
 
     peopleChannel.bind('people_event', function(data){
       $scope.people = data;
-      $scope.people.push("");
+      if (data.length > 0) $scope.people.push("");
     });
 
     $scope.createNewUser = function(){
