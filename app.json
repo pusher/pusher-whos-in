@@ -3,5 +3,5 @@
   "description": "Track who comes and goes from the office in realtime.",
   "website": "http://pusher-whos-in.herokuapp.com",
   "success_url": "/",
-  "addons": ["mongolab"]
+  "addons": ["mongolab", "pusher"]
 }
