@@ -48,7 +48,7 @@ end
 
 post '/users/new' do 
 	user_data, response_data = Hash.new, JSON.parse(request.body.read)
-	user_data[:name], user_data[:mac], user_data[:email] = response_data["name"], response_data["mac address"], response_data["email address"]
+	user_data[:name], user_data[:mac], user_data[:email] = response_data["name"], response_data["mac address"].upcase, response_data["email address"]
 	user_data[:gravatar] = Gravatar.new(user_data[:email]).image_url
 	settings.mongo_db['users'].insert user_data
 	{success: 200}.to_json

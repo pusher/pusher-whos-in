@@ -9,11 +9,11 @@
 		"mac": "78:31:C1:BD:DB:0A",
 		"email": "hamilton@pusher.com"
 	},
-	// {
-	// 	"name": "Jamie",
-	// 	"mac": "84:7A:88:5C:A2:F7",
-	// 	"email": "jamie@pusher.com"
-	// },
+	{
+		"name": "Jamie",
+		"mac": "84:7A:88:5C:A2:F7",
+		"email": "jamie@pusher.com"
+	},
 	{
 		"name": "Lauren",
 		"mac": "78:31:C1:CE:C7:96",
