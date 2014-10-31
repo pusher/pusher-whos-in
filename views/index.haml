@@ -31,7 +31,7 @@
 
   angular.module('WhosIn', ['pusher-angular', 'ui.bootstrap']).controller('AppCtrl', function($scope, $pusher, $http){
 
-    var pusherKey = '#{ENV["WHOS_IN_KEY"]}'
+    var pusherKey = '#{ ENV["PUSHER_URL"].split("/")[2].split(":").first  || ENV["WHOS_IN_KEY"]}'
 
     var client = new Pusher(pusherKey);
     var pusher = $pusher(client);
