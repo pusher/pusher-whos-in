@@ -62,4 +62,11 @@
       return _.contains(turningPoints, index)
     };
 
+    $scope.submitWithKeyPress = function(event){
+      if (event.keyCode === 13) {
+        $scope.createNewUser();
+        angular.element('#myModal').modal('hide');
+      }
+    }
+
   });
