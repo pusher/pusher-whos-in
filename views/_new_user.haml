@@ -12,11 +12,11 @@
         %h4#myModalLabel.modal-title Add One Of Your Colleagues
       .modal-body
         .new-user-form
-        %form{name: "NewUser", :"ng-submit" => "createNewUser()"}
+        %form{name: "NewUser", :"ng-submit" => "createNewUser()", novalidate: true}
           .form-group{:"ng-repeat" => "field in fields"}
             %label {{field}}
             %small{:"ng-show" => "field == 'Email Address'"} Who's In will use your email address to fetch your gravatar.
-            %input.form-control{:"ng-model" => "user[field.toLowerCase()]", :"ng-keydown" => "submitWithKeyPress($event)"}
+            %input.form-control{:"ng-model" => "user[field.toLowerCase()]", :"ng-keydown" => "NewUser.$valid && submitWithKeyPress($event)", required: true}
       .modal-footer
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
-        %button.btn.btn-primary{:type => "button", :"ng-click" => "user['email address'] && user['mac address'] && createNewUser()", "data-dismiss" => "modal"} Save changes
+        %button.btn.btn-primary{:type => "button", :"ng-click" => "user['email address'] && user['mac address'] && createNewUser()", "data-dismiss" => "modal", :"ng-disabled" => "!NewUser.$valid"} Save changes

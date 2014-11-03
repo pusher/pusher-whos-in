@@ -1,3 +1,7 @@
+.ng-dirty.ng-invalid {
+  border-color: rgba(255, 0, 0, 0.4) !important;
+}
+
 
 body {
   font-family:arial;
