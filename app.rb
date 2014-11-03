@@ -8,7 +8,7 @@ require 'pusher'
 require 'mongo'
 
 
-Pusher.url = ENV["PUSHER_URL"] || "http://#{ENV["WHOS_IN_KEY"]}:#{ENV["WHOS_IN_SECRET"]}@api.pusherapp.com/apps/#{ENV["WHOS_IN_ID"]}"
+Pusher.url = ENV["PUSHER_URL"]
 
 helpers do
   def protected!
@@ -19,7 +19,7 @@ helpers do
 
   def authorized?
     @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-    @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['admin', 'admin']
+    @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['admin', ENV["PUSHER_URL"]]
   end
 end
 

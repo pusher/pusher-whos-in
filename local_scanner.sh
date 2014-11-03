@@ -19,7 +19,9 @@ update_offline_since() {
   json=$( IFS=, ; echo "${json[*]}")
   json="[$json]"
 
-  curl -X POST -d "$json" -u admin:admin $WHOSIN_URL >/dev/null &
+  echo $PUSHER_URL
+
+  curl -X POST -d "$json" $WHOSIN_URL -u admin:$PUSHER_URL >/dev/null &
 
   echo $json
 }
