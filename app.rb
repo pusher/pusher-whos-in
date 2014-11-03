@@ -10,6 +10,18 @@ require 'mongo'
 
 Pusher.url = ENV["PUSHER_URL"] || "http://#{ENV["WHOS_IN_KEY"]}:#{ENV["WHOS_IN_SECRET"]}@api.pusherapp.com/apps/#{ENV["WHOS_IN_ID"]}"
 
+helpers do
+  def protected!
+    return if authorized?
+    headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
+    halt 401, "Not authorized\n"
+  end
+
+  def authorized?
+    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['admin', 'admin']
+  end
+end
 
 include Mongo
 
@@ -41,7 +53,8 @@ get '/' do
   haml :index, :layout => :'layouts/application'
 end
 
-post '/people' do 
+post '/people' do
+	protected!
 	people = people_from_json request.body.read
 	Pusher['people_channel'].trigger('people_event', people)
 end
