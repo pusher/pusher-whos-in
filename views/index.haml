@@ -19,7 +19,7 @@
       .hexagons{:"ng-repeat" => "person in people"}
         .hex{style: "background-image: url({{person.gravatar}})", :"ng-class" => "{'hex-gap': shouldCreateGap($index), 'absent': !person.present}", :"data-target" => "$last ? '#myModal' : '' ", :"data-toggle" => "$last ? 'modal' : ''"}
 
-          %a{href:"#", tooltip: "{{person.name}} is in! Last Seen: {{person.last_seen | date:'short'}}", :"ng-hide" => "$last"}
+          %a{href:"#", tooltip: "{{person.name}} is {{ person.present ? 'in!' : 'away' }} Last Seen: {{person.last_seen | date:'short'}}", :"ng-hide" => "$last"}
 
           %a{:"ng-show" => "$last",  "data-target" => "#myModal", "data-toggle" => "modal"}
           .corner-1
@@ -40,7 +40,6 @@
     $scope.user = {}
 
     peopleChannel.bind('people_event', function(data){
-      console.log(data);
       $scope.people = data;
       if (data.length > 0) $scope.people.push({gravatar: 'http://xeogame.com/sites/xeogame.com/files/add_friends_icon.jpg'});
     });
