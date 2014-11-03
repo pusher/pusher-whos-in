@@ -41,7 +41,7 @@
 
     peopleChannel.bind('people_event', function(data){
       $scope.people = data;
-      if (data.length > 0) $scope.people.push("");
+      if (data.length > 0) $scope.people.push({gravatar: 'http://xeogame.com/sites/xeogame.com/files/add_friends_icon.jpg'});
     });
 
     $scope.createNewUser = function(){
