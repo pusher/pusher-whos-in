@@ -193,3 +193,7 @@ a:hover {
   .hex.hex-3 {
     background: #80b971;
   }
+
+  .absent {
+    opacity: 0.2;
+  }

@@ -55,7 +55,8 @@ end
 
 post '/people' do
 	protected!
-	people = people_from_json request.body.read
+	# people = people_from_json request.body.read
+	people = process request.body.read
 	Pusher['people_channel'].trigger('people_event', people)
 end
 
@@ -63,19 +64,24 @@ post '/users/new' do
 	user_data, response_data = Hash.new, JSON.parse(request.body.read)
 	user_data[:name], user_data[:mac], user_data[:email] = response_data["name"], response_data["mac address"].upcase, response_data["email address"]
 	user_data[:gravatar] = Gravatar.new(user_data[:email]).image_url
+	user_data[:last_seen] = Time.new(0)
 	settings.mongo_db['users'].insert user_data
 	{success: 200}.to_json
 end
 
-def people_from_json output
-	addresses = JSON.parse output
-	match_people_to_mac_addresses addresses
+def process addresses
+	addresses = JSON.parse(addresses).map {|address| address["mac"]}
+	people = settings.mongo_db['users']
+	people.find.each do |person|
+		if addresses.include? person["mac"]
+			people.update({"_id" => person["_id"]}, {"$set" => {"last_seen" => Time.now, "present" => true }})
+		elsif !addresses.include?(person["mac"]) && (Time.now >= (person["last_seen"] + 10*60))
+			people.update({"_id" => person["_id"]}, {"$set" => {"present" => false }})
+		end
+	end
+	people.find.to_a
 end
 
-def match_people_to_mac_addresses addresses
-	addresses.map! {|address| address["mac"]}
-	people = settings.mongo_db['users']
-	matches = people.find('mac' => {'$in' => addresses})
-	matches.to_a.each { |match| people.update({"_id" => match["_id"]},{"$set" => {"last_seen" => Time.now}})}
-	people.find('mac' => {'$in' => addresses}).to_a
-end
+
+
+
