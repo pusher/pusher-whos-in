@@ -47,6 +47,10 @@ set :root, File.dirname(__FILE__)
 set :views, 'views'
 set :public_folder, 'public'
 
+# Database of users
+
+set :people, settings.mongo_db['users']
+
 # Application routes
 get '/' do
   haml :index, :layout => :'layouts/application'
@@ -68,7 +72,7 @@ post '/users/new' do
 	{success: 200}.to_json
 end
 
-def status_by addresses, people = settings.mongo_db['users']
+def status_by addresses
 	Proc.new { |person| is_included_in_list?(person, addresses) ? set_presence_of(person, true) : inactive_for_ten_minutes?(person) ? set_presence_of(person, false) : nil }
 end
 
@@ -80,12 +84,12 @@ def inactive_for_ten_minutes? person
 	Time.now >= (person["last_seen"] + 10*60)
 end
 
-def set_presence_of person, status, people = settings.mongo_db['users']
+def set_presence_of person, status
 	insertion = status ? {"last_seen" => Time.now, "present" => true} : {"present" => false }
-	people.update({"_id" => person["_id"]}, {"$set" => insertion})
+	settings.people.update({"_id" => person["_id"]}, {"$set" => insertion})
 end
 
-def update_people_from addresses, people = settings.mongo_db['users']
-	people.find.map(&status_by(addresses))
-	people.find.to_a
+def update_people_from addresses
+	settings.people.find.map(&status_by(addresses))
+	settings.people.find.to_a
 end
