@@ -37,7 +37,6 @@ configure do
 		db = client.db(db_name)
 		set :mongo_connection, client
 		set :mongo_db, db
-		db.collection_names.each { |name| puts name }
   end
 end
 
@@ -55,8 +54,7 @@ end
 
 post '/people' do
 	protected!
-	# people = people_from_json request.body.read
-	people = process request.body.read
+	people = update_people_from request.body.read
 	Pusher['people_channel'].trigger('people_event', people)
 end
 
@@ -69,19 +67,27 @@ post '/users/new' do
 	{success: 200}.to_json
 end
 
-def process addresses
-	addresses = JSON.parse(addresses).map {|address| address["mac"]}
-	people = settings.mongo_db['users']
-	people.find.each do |person|
-		if addresses.include? person["mac"]
-			people.update({"_id" => person["_id"]}, {"$set" => {"last_seen" => Time.now, "present" => true }})
-		elsif !addresses.include?(person["mac"]) && (Time.now >= (person["last_seen"] + 10*60))
-			people.update({"_id" => person["_id"]}, {"$set" => {"present" => false }})
-		end
+def status_by addresses, people = settings.mongo_db['users']
+	Proc.new do |person|
+		is_included_in_list?(person, addresses) ? set_presence_of(person, true) : inactive_for_ten_minutes?(person) ? set_presence_of(person, false) : nil
 	end
-	people.find.to_a
 end
 
+def is_included_in_list? person, addresses
+	addresses.include? person["mac"]
+end
 
+def inactive_for_ten_minutes? person
+	Time.now >= (person["last_seen"] + 10*60)
+end
 
+def set_presence_of person, status, people = settings.mongo_db['users']
+	insertion = status ? {"last_seen" => Time.now, "present" => true} : {"present" => false }
+	people.update({"_id" => person["_id"]}, {"$set" => insertion})
+end
 
+def update_people_from addresses, people = settings.mongo_db['users']
+	addresses = JSON.parse(addresses).map {|address| address["mac"]}
+	people.find.map(&status_by(addresses))
+	people.find.to_a
+end
