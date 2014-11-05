@@ -54,7 +54,8 @@ end
 
 post '/people' do
 	protected!
-	people = update_people_from request.body.read
+	addresses = JSON.parse(request.body.read).map(&:values).flatten
+	people = update_people_from addresses
 	Pusher['people_channel'].trigger('people_event', people)
 end
 
@@ -68,9 +69,7 @@ post '/users/new' do
 end
 
 def status_by addresses, people = settings.mongo_db['users']
-	Proc.new do |person|
-		is_included_in_list?(person, addresses) ? set_presence_of(person, true) : inactive_for_ten_minutes?(person) ? set_presence_of(person, false) : nil
-	end
+	Proc.new { |person| is_included_in_list?(person, addresses) ? set_presence_of(person, true) : inactive_for_ten_minutes?(person) ? set_presence_of(person, false) : nil }
 end
 
 def is_included_in_list? person, addresses
@@ -87,7 +86,6 @@ def set_presence_of person, status, people = settings.mongo_db['users']
 end
 
 def update_people_from addresses, people = settings.mongo_db['users']
-	addresses = JSON.parse(addresses).map {|address| address["mac"]}
 	people.find.map(&status_by(addresses))
 	people.find.to_a
 end
