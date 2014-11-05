@@ -64,10 +64,8 @@ post '/people' do
 end
 
 post '/users/new' do 
-	user_data, response_data = Hash.new, JSON.parse(request.body.read)
-	user_data[:name], user_data[:mac], user_data[:email] = response_data["name"], response_data["mac address"].upcase, response_data["email address"]
-	user_data[:gravatar] = Gravatar.new(user_data[:email]).image_url
-	user_data[:last_seen] = Time.new(0)
+	user_data = JSON.parse(request.body.read)
+	user_data["gravatar"], user_data["last_seen"] = Gravatar.new(user_data["email"]).image_url, Time.new(0)
 	settings.mongo_db['users'].insert user_data
 	{success: 200}.to_json
 end
@@ -77,7 +75,7 @@ def status_by addresses
 end
 
 def is_included_in_list? person, addresses
-	addresses.include? person["mac"]
+	addresses.include? person["mac"].upcase
 end
 
 def inactive_for_ten_minutes? person
@@ -90,6 +88,5 @@ def set_presence_of person, status
 end
 
 def update_people_from addresses
-	settings.people.find.map(&status_by(addresses))
-	settings.people.find.to_a
+	settings.people.find.map(&status_by(addresses)) and return settings.people.find.to_a
 end
