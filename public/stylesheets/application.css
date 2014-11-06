@@ -64,6 +64,7 @@ a:hover {
   margin:25px 5px;
   text-align:center;
   zoom:1;
+  cursor: pointer;
 }
     
   .hex.hex-gap {
