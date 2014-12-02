@@ -17,7 +17,7 @@
           .corner-2
 
       .hexagons{:"ng-repeat" => "person in people"}
-        .hex{style: "background-image: url({{person.gravatar}})", :"ng-class" => "{'hex-gap': shouldCreateGap($index), 'absent': !person.present}", :"data-target" => "$last ? '#myModal' : '' ", :"data-toggle" => "$last ? 'modal' : ''"}
+        .hex{:"ng-style" => "{'background-image': 'url({{person.gravatar}})'}", :"ng-class" => "{'hex-gap': shouldCreateGap($index), 'absent': !person.present}", :"data-target" => "$last ? '#myModal' : '' ", :"data-toggle" => "$last ? 'modal' : ''"}
 
           %a{href:"#", tooltip: "{{person.name}} is {{ person.present ? 'in!' : 'away' }} Last Seen: {{person.last_seen | date:'short'}}", :"ng-hide" => "$last"}
 
